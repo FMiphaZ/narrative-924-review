@@ -154,9 +154,11 @@ def main():
             pmax_d, pmax = close.idxmax(), float(close.max())
             to_max_d = to_s.idxmax()
             base = close.iloc[0]
-            # 自峰值最大回撤（峰值之后）
+            latest_d, latest = close.index[-1], float(close.iloc[-1])
+            # 峰值后的历史最大回撤与数据截止日的当前回撤分别保存，避免混用。
             after = close[pmax_d:]
-            dd = float((after.min() / pmax - 1) * 100) if len(after) else 0.0
+            max_dd_after_peak = float((after.min() / pmax - 1) * 100) if len(after) else 0.0
+            current_dd_from_peak = float((latest / pmax - 1) * 100)
             # 相对基准强弱（日频）
             bench = bench_hk if st["code"].startswith("HK") else bench_a
             b2 = bench.copy()
@@ -173,8 +175,11 @@ def main():
                     "价格底": {"date": pmin_d.strftime("%Y-%m-%d"), "value": round(pmin, 2)},
                     "价格顶": {"date": pmax_d.strftime("%Y-%m-%d"), "value": round(pmax, 2)},
                     "成交顶": {"date": to_max_d.strftime("%Y-%m-%d")},
-                    "区间涨幅%": round((close.iloc[-1] / base - 1) * 100, 1),
-                    "自顶回撤%": round(dd, 1),
+                    "最新收盘": {"date": latest_d.strftime("%Y-%m-%d"), "value": round(latest, 2)},
+                    "起始日至今涨跌%": round((latest / base - 1) * 100, 1),
+                    "底至顶涨幅%": round((pmax / pmin - 1) * 100, 1),
+                    "当前自顶回撤%": round(current_dd_from_peak, 1),
+                    "峰后最大回撤%": round(max_dd_after_peak, 1),
                     "相对强弱顶": {"date": rs.idxmax().strftime("%Y-%m-%d")},
                     "相对强弱底": {"date": rs.idxmin().strftime("%Y-%m-%d")},
                 },

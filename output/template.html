@@ -574,7 +574,8 @@ function selectEpisode(eid){
       const label = rows[p.value[1]];
       const code = Object.keys(STK).find(cd=>STK[cd].name===label);
       const st = STK[code];
-      return `<b>${label}</b>（${st.roles}）<br>${mArr[p.value[0]]} 涨跌：<b style="color:${p.value[2]>=0?'#dc2626':'#16a34a'}">${p.value[2]}%</b><br><span style="color:#94a3b8">价格底 ${st.marks['价格底'].date} → 价格顶 ${st.marks['价格顶'].date}，自顶回撤 ${st.marks['自顶回撤%']}%</span>`;
+      const m = st.marks;
+      return `<b>${label}</b>（${st.roles}）<br>${mArr[p.value[0]]} 涨跌：<b style="color:${p.value[2]>=0?'#dc2626':'#16a34a'}">${p.value[2]}%</b><br><span style="color:#94a3b8">收盘价底 ${m['价格底'].date} → 收盘价顶 ${m['价格顶'].date} · 底至顶 +${m['底至顶涨幅%']}%<br>最新收盘 ${m['最新收盘'].date}（${m['最新收盘'].value}）· 当前自顶 ${m['当前自顶回撤%']}%</span>`;
     }},
     series:[{type:'heatmap', data, label:{show:false}, itemStyle:{borderColor:'#fff', borderWidth:1},
       emphasis:{itemStyle:{shadowBlur:6, shadowColor:'rgba(0,0,0,.25)'}}}]
@@ -705,7 +706,8 @@ function buildEpChart(eid){
     const mevs = (e.micro_events||[]).map(m=>`<span><b style="color:${MEV_COL[m.type]||'#64748b'}">${m.type}</b> ${m.date.slice(5)} ${m.label}</span>`).join('');
     const stocks = (e.stocks||[]).map(s=>{
       const st = STK[s.code];
-      const mk = st ? `价格底 ${st.marks['价格底'].date}（${st.marks['价格底'].value}） → 价格顶 ${st.marks['价格顶'].date}（${st.marks['价格顶'].value}） · 区间${st.marks['区间涨幅%']}% · 自顶回撤${st.marks['自顶回撤%']}%` : '';
+      const m = st && st.marks;
+      const mk = m ? `收盘价底 ${m['价格底'].date}（${m['价格底'].value}） → 收盘价顶 ${m['价格顶'].date}（${m['价格顶'].value}） · 底至顶 +${m['底至顶涨幅%']}% · 最新收盘 ${m['最新收盘'].date}（${m['最新收盘'].value}）· 当前自顶 ${m['当前自顶回撤%']}%` : '';
       return `<tr><td style="white-space:nowrap"><b>${s.name}</b><br><span style="color:#94a3b8;font-size:11px">${s.code}</span></td><td>${s.role}</td><td style="font-size:11.5px;color:#475569">${mk}</td></tr>`;
     }).join('');
     return `<details class="ep" id="ep-${e.id}">
