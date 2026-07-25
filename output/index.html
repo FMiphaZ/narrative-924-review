@@ -33,7 +33,7 @@ h2 .no{font-size:12px;background:var(--ink);color:#fff;border-radius:6px;padding
 p.lead{color:var(--ink2);max-width:960px;margin-bottom:14px;font-size:13.5px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
 .chart{width:100%}
-#mainChart{height:760px}
+#mainChart{height:920px}
 #lifeChart{height:840px}
 #flowChart{height:430px}
 #flowHKChart{height:330px}
@@ -103,7 +103,7 @@ footer .card{font-size:12px;color:var(--ink2)}
 
 <section id="s1">
   <h2><span class="no">壹</span>四轨总时间轴</h2>
-  <p class="lead">自上而下四条轨：<b>叙事泳道</b>（每条叙事事件段，颜色=驱动类型，圆点=生命周期阶段）→ <b>价格轨</b>（指数，可切换绝对点位/归一化）→ <b>资金轨</b>（全A成交额柱 + 两融余额关键点 + 港股成交额）。虚线=关键事件（悬停查看）。点击泳道中的叙事可在价格轨上高亮其窗口。</p>
+  <p class="lead">自上而下四条轨：<b>叙事泳道</b>（标题卡片完整展示；底部彩条=实际事件窗口，圆点=生命周期阶段）→ <b>价格轨</b>（指数，可切换绝对点位/归一化）→ <b>资金轨</b>（全A成交额柱 + 两融余额关键点 + 港股成交额）。虚线=关键事件（悬停查看）。点击泳道中的叙事可在价格轨上高亮其窗口。</p>
   <div class="card">
     <div class="btnrow">
       <button class="btn active" id="btnAbs">绝对点位</button>
@@ -2435,9 +2435,21 @@ function stagePhase(s){ const k = Object.keys(PHASE_COLOR).find(p => s.startsWit
 const CH = {};
 const mainChart = echarts.init(document.getElementById('mainChart'));
 CH.main = mainChart;
-/* 叙事泳道：按驱动类型分泳道、贪心分配子行 */
+/* 叙事泳道：标题卡片与精确时间色条分离，完整标题不再被事件窗口裁切。 */
 const TRACKS = ["市场制度","政策","产业","资金","宏观"];
+const DAY_MS = 864e5;
+const NARRATIVE_ROW_H = 34;
+const NARRATIVE_CHIP_H = 28;
+const NARRATIVE_MIN = ts('2023-12-25');
+const NARRATIVE_MAX = ts('2026-08-05');
 const laneOf = {}; let laneNames = [];
+function captionRange(e){
+  const start = ts(e.window.start), end = ts(e.window.end);
+  const span = Math.max(48, (Array.from(e.name).length + 5) * 7) * DAY_MS;
+  /* 靠近右边界的事件将标题卡片向左展开，避免最后一段叙事被截断。 */
+  if (start + span <= NARRATIVE_MAX) return {start, end:Math.max(end, start + span)};
+  return {start:Math.max(NARRATIVE_MIN, end - span), end};
+}
 (function buildLanes(){
   const byTrack = {};
   EP.episodes.forEach(e => { (byTrack[e.track] = byTrack[e.track]||[]).push(e); });
@@ -2445,42 +2457,56 @@ const laneOf = {}; let laneNames = [];
     const eps = (byTrack[t]||[]).sort((a,b)=> a.window.start < b.window.start ? -1 : 1);
     const lanes = [];
     eps.forEach(e => {
-      let placed = -1;
-      for (let i=0;i<lanes.length;i++){
-        if (lanes[i] <= ts(e.window.start)) { placed = i; break; }
-      }
-      if (placed < 0) { lanes.push(0); placed = lanes.length-1; }
-      lanes[placed] = ts(e.window.end);
+      const caption = captionRange(e), gap = 4 * DAY_MS;
+      let placed = lanes.findIndex(ranges => ranges.every(r => caption.end + gap <= r.start || caption.start - gap >= r.end));
+      if (placed < 0) { lanes.push([]); placed = lanes.length-1; }
+      lanes[placed].push(caption);
       laneOf[e.id] = laneNames.length + placed;
       e._laneName = t;
+      e._caption = caption;
     });
     for (let i=0;i<lanes.length;i++) laneNames.push(t + (lanes.length>1 ? "·"+(i+1) : ""));
   });
 })();
 const laneCount = laneNames.length;
-const BAND_DATA = EP.episodes.map(e => ({value:[laneOf[e.id], ts(e.window.start), ts(e.window.end)], eid:e.id, name:e.name, track:e.track, phase:e.phase}));
+const BAND_DATA = EP.episodes.map(e => ({
+  value:[laneOf[e.id], ts(e.window.start), ts(e.window.end)],
+  captionStart:e._caption.start, captionEnd:e._caption.end,
+  eid:e.id, name:e.name, track:e.track, phase:e.phase
+}));
+function wrapEpTitle(text, charsPerLine){
+  return Array.from(text).map((ch, i) => i && i % charsPerLine === 0 ? '\n'+ch : ch).join('');
+}
 function renderEpBand(params, api){
   const data = BAND_DATA[params.dataIndex];
   if(!data) return {type:'group', children:[]};
   const lane = data.value[0], start = api.coord([data.value[1], lane]), end = api.coord([data.value[2], lane]);
-  const h = 13;
+  const capStart = api.coord([data.captionStart, lane]), capEnd = api.coord([data.captionEnd, lane]);
+  const chipW = Math.max(capEnd[0]-capStart[0], 30), chipY = start[1]-NARRATIVE_CHIP_H/2;
+  const title = wrapEpTitle(data.eid+' '+data.name, Math.max(10, Math.floor((chipW-12)/9.5)));
   const children = [];
+  /* 白底标题卡片用于可读性；底部彩条保留精确的事件时间范围。 */
   children.push({
     type:'rect',
-    shape:{x:start[0], y:start[1]-h/2, width:Math.max(end[0]-start[0],2), height:h, r:3},
-    style:{fill: TRACK_COLOR[data.track], opacity:.82}
+    shape:{x:capStart[0], y:chipY, width:chipW, height:NARRATIVE_CHIP_H, r:4},
+    style:{fill:'#fff', stroke:TRACK_COLOR[data.track], lineWidth:1, opacity:.98}
+  });
+  children.push({
+    type:'rect',
+    shape:{x:start[0], y:chipY+NARRATIVE_CHIP_H-4, width:Math.max(end[0]-start[0],2), height:4, r:[0,0,3,3]},
+    style:{fill:TRACK_COLOR[data.track]}
+  });
+  children.push({
+    type:'text',
+    style:{x:capStart[0]+6, y:start[1]-1, text:title, width:chipW-12, fill:'#1e293b', fontSize:9.5, lineHeight:11.5, align:'left', verticalAlign:'middle', fontWeight:600}
   });
   /* 阶段圆点 */
   const eps = EP.episodes.find(x=>x.id===data.eid);
   Object.entries(eps.stages||{}).forEach(([ph, desc])=>{
     const d = parseStageDate(desc); if(!d) return;
     const c = api.coord([ts(d), lane]);
-    children.push({type:'circle', shape:{cx:c[0], cy:c[1], r:3.2}, style:{fill:'#fff', stroke:PHASE_COLOR[ph]||'#64748b', lineWidth:2}});
+    children.push({type:'circle', shape:{cx:c[0], cy:chipY+NARRATIVE_CHIP_H-2, r:3}, style:{fill:'#fff', stroke:PHASE_COLOR[ph]||'#64748b', lineWidth:1.8}});
   });
-  /* 名称 */
-  if (end[0]-start[0] > 46){
-    children.push({type:'text', style:{x:start[0]+4, y:start[1], text:data.name.length>10?data.name.slice(0,10):data.name, fill:'#fff', fontSize:10, align:'left', verticalAlign:'middle', fontWeight:600}});
-  }
   return {type:'group', children};
 }
 function eventMarkLines(){
@@ -2551,9 +2577,9 @@ function buildMain(mode){
   return {
     animation:false, textStyle:FONT,
     grid:[
-      {left:64, right:64, top:8, height: laneCount*17+14},
-      {left:64, right:64, top: laneCount*17+40, height: 330},
-      {left:64, right:64, top: laneCount*17+390, height: 120}
+      {left:64, right:64, top:8, height: laneCount*NARRATIVE_ROW_H+12},
+      {left:64, right:64, top: laneCount*NARRATIVE_ROW_H+42, height: 330},
+      {left:64, right:64, top: laneCount*NARRATIVE_ROW_H+392, height: 120}
     ],
     xAxis:[
       {type:'time', gridIndex:0, show:false, min:'2023-12-25', max:'2026-08-05'},
@@ -2562,7 +2588,7 @@ function buildMain(mode){
     ],
     yAxis:[
       {type:'category', gridIndex:0, data: laneNames.map((n,i)=>i), inverse:true,
-       axisLabel:{fontSize:10, color:'#64748b', formatter:v=>laneNames[v]}, axisLine:{show:false}, axisTick:{show:false}, splitLine:{show:false}},
+       axisLabel:{fontSize:10, color:'#64748b', margin:8, formatter:v=>laneNames[v]}, axisLine:{show:false}, axisTick:{show:false}, splitLine:{show:false}},
       {type:'value', gridIndex:1, scale:true, name: abs?'A股':'归一化', nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10,color:'#94a3b8'}, splitLine:{lineStyle:{color:'#f1f5f9'}}},
       {type:'value', gridIndex:2, name:'亿元', nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10,color:'#94a3b8', formatter:v=> v>=10000 ? (v/10000)+'万亿' : v}, splitLine:{show:false}},
       {type:'value', gridIndex:1, position:'right', scale:true, name:'港股', show: abs, nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10,color:'#94a3b8'}, splitLine:{show:false}},
@@ -2592,7 +2618,7 @@ function buildMain(mode){
         evs.forEach(e=> html += `<br><span style="color:#d97706">◆ ${e.label}</span>`);
         return html;
       }},
-    legend:{show:true, top: laneCount*17+24, itemWidth:14, itemHeight:2, textStyle:{fontSize:11, color:'#475569'}, data: priceSeries.map(s=>IDX.series[s.code].name)},
+    legend:{show:true, top: laneCount*NARRATIVE_ROW_H+26, itemWidth:14, itemHeight:2, textStyle:{fontSize:11, color:'#475569'}, data: priceSeries.map(s=>IDX.series[s.code].name)},
     series:[{
       name:'叙事泳道', type:'custom', xAxisIndex:0, yAxisIndex:0,
       renderItem: renderEpBand, data: BAND_DATA,
