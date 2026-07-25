@@ -34,7 +34,7 @@ p.lead{color:var(--ink2);max-width:960px;margin-bottom:14px;font-size:13.5px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
 .chart{width:100%}
 #mainChart{height:760px}
-#lifeChart{height:640px}
+#lifeChart{height:840px}
 #flowChart{height:430px}
 #flowHKChart{height:330px}
 #heatChart{height:1150px}
@@ -2636,7 +2636,9 @@ function selectEpisode(eid){
 /* ================= 贰：生命周期 ================= */
 (function life(){
   const eps = EP.episodes;
-  const lifeNames = eps.map(e=>e.id+' '+e.name.slice(0,12));
+  // 完整保留叙事名称；左侧标签列会自动换行，不再截断为前 12 个字。
+  const lifeNames = eps.map(e=>e.id+' '+e.name);
+  const lifeLabelWidth = window.innerWidth < 700 ? 150 : 260;
   const segData = [], pointData = [];
   eps.forEach((e, i)=>{
     const row = lifeNames[i];
@@ -2654,9 +2656,11 @@ function selectEpisode(eid){
   CH.life = chart;
   chart.setOption({
     animation:false, textStyle:FONT,
-    grid:{left:210, right:30, top:10, bottom:60},
+    grid:{left:lifeLabelWidth + 38, right:30, top:10, bottom:60},
     xAxis:{type:'time', min:'2023-12-25', max:'2026-08-05', axisLabel:{fontSize:10, color:'#94a3b8'}},
-    yAxis:{type:'category', data: lifeNames, inverse:true, axisLabel:{fontSize:10.5, color:'#334155'}, axisLine:{show:false}, axisTick:{show:false}},
+    yAxis:{type:'category', data: lifeNames, inverse:true, interval:0,
+      axisLabel:{fontSize:10.5, lineHeight:13, width:lifeLabelWidth, overflow:'break', margin:10, color:'#334155'},
+      axisLine:{show:false}, axisTick:{show:false}},
     dataZoom:[{type:'inside', xAxisIndex:0},{type:'slider', xAxisIndex:0, height:16, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(37,99,235,.08)'}],
     tooltip:{confine:true, formatter:p=>{
       const e = EP.episodes.find(x=>x.id===p.data.eid);
