@@ -34,7 +34,7 @@ p.lead{color:var(--ink2);max-width:960px;margin-bottom:14px;font-size:13.5px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
 .chart{width:100%}
 #mainChart{height:920px}
-#lifeChart{height:840px}
+#lifeChart{height:840px;overflow:hidden}
 #flowChart{height:430px}
 #flowHKChart{height:330px}
 #heatChart{height:1150px}
@@ -2711,7 +2711,10 @@ function selectEpisode(eid){
     yAxis:{type:'category', data: lifeNames, inverse:true, interval:0,
       axisLabel:{fontSize:10.5, lineHeight:13, width:lifeLabelWidth, overflow:'break', margin:10, color:'#334155'},
       axisLine:{show:false}, axisTick:{show:false}},
-    dataZoom:[{type:'inside', xAxisIndex:0},{type:'slider', xAxisIndex:0, height:16, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(37,99,235,.08)'}],
+    dataZoom:[
+      {type:'inside', xAxisIndex:0, filterMode:'weakFilter'},
+      {type:'slider', xAxisIndex:0, filterMode:'weakFilter', height:16, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(37,99,235,.08)'}
+    ],
     tooltip:{confine:true, formatter:p=>{
       const e = EP.episodes.find(x=>x.id===p.data.eid);
       if(p.seriesName==='阶段点') return `<b>${e.id} ${e.name}</b><br>${p.data.desc}`;
@@ -2722,16 +2725,18 @@ function selectEpisode(eid){
         renderItem:(params, api)=>{
           const item = segData[params.dataIndex];
           if(!item) return {type:'group', children:[]};
-          const i=item.value[0], s=api.coord([item.value[1],i]), en=api.coord([item.value[2],i]);
+          const i=api.value(0), s=api.coord([api.value(1),i]), en=api.coord([api.value(2),i]);
           const h=14, ph=item.ph||'铺垫';
-          return {type:'group', children:[
-            {type:'rect', shape:{x:s[0], y:s[1]-h/2, width:Math.max(en[0]-s[0],1.5), height:h, r:2}, style:{fill:PHASE_COLOR[ph]||'#cbd5e1', opacity:.9}}
-          ]};
+          const rect = echarts.graphic.clipRectByRect(
+            {x:Math.min(s[0],en[0]), y:s[1]-h/2, width:Math.max(Math.abs(en[0]-s[0]),1.5), height:h, r:2},
+            params.coordSys
+          );
+          return rect ? {type:'rect', shape:rect, style:{fill:PHASE_COLOR[ph]||'#cbd5e1', opacity:.9}} : null;
         },
-        data: segData},
+        encode:{x:[1,2], y:0}, clip:true, data: segData},
       {name:'阶段点', type:'scatter', symbolSize:7,
         itemStyle:{color:'#0f172a', borderColor:'#fff', borderWidth:1.5},
-        data: pointData}
+        encode:{x:1, y:0}, clip:true, data: pointData}
     ]
   });
   chart.on('click', p=>{ if(p.data && p.data.eid) selectEpisode(p.data.eid); });
