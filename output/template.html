@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9·24牛市叙事考古 · 2024.09.24 → 2026.07.24（长鑫上市前）</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#0f172a; --ink2:#475569; --ink3:#94a3b8;
+  --line:#e2e8f0; --up:#dc2626; --down:#16a34a;
+  --c-policy:#2563eb; --c-industry:#d97706; --c-capital:#059669; --c-macro:#dc2626; --c-regime:#7c3aed;
+  --chip:#f1f5f9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+a{color:var(--c-policy);text-decoration:none}
+.wrap{max-width:1440px;margin:0 auto;padding:0 24px}
+header.top{background:linear-gradient(180deg,#0f172a 0%,#1e293b 100%);color:#f8fafc;padding:34px 0 26px}
+header.top h1{font-size:26px;letter-spacing:.5px}
+header.top .sub{color:#94a3b8;margin-top:6px;font-size:13px}
+.regime{margin-top:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px 16px;font-size:14px;color:#e2e8f0}
+.regime b{color:#fbbf24}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;font-size:12px;color:#cbd5e1}
+.stat b{display:block;font-size:17px;color:#fff;font-weight:600}
+nav{position:sticky;top:0;z-index:50;background:#ffffffee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:4px;overflow-x:auto}
+nav a{padding:12px 14px;font-size:13px;color:var(--ink2);white-space:nowrap;border-bottom:2px solid transparent}
+nav a:hover{color:var(--ink);border-bottom-color:var(--c-policy)}
+section{padding:34px 0 8px}
+h2{font-size:20px;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+h2 .no{font-size:12px;background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;font-weight:500}
+p.lead{color:var(--ink2);max-width:960px;margin-bottom:14px;font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.chart{width:100%}
+#mainChart{height:760px}
+#lifeChart{height:640px}
+#flowChart{height:430px}
+#flowHKChart{height:330px}
+#heatChart{height:1150px}
+.legend-note{font-size:12px;color:var(--ink3);margin:6px 0 0}
+.btnrow{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 14px;font-size:12.5px;cursor:pointer;color:var(--ink2)}
+.btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:1px}
+table.tb{width:100%;border-collapse:collapse;font-size:12.5px}
+table.tb th{background:#f8fafc;text-align:left;padding:8px 10px;border:1px solid var(--line);color:var(--ink2);font-weight:600;white-space:nowrap}
+table.tb td{padding:8px 10px;border:1px solid var(--line);vertical-align:top}
+table.tb tr:hover td{background:#fafbfc}
+.badge{display:inline-block;border-radius:6px;padding:1px 8px;font-size:11px;color:#fff;white-space:nowrap}
+.b-policy{background:var(--c-policy)}.b-industry{background:var(--c-industry)}.b-capital{background:var(--c-capital)}.b-macro{background:var(--c-macro)}.b-regime{background:var(--c-regime)}
+.b-phase{background:#64748b}
+.ep{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:12px;overflow:hidden}
+.ep>summary{cursor:pointer;padding:14px 18px;list-style:none;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ep>summary::-webkit-details-marker{display:none}
+.ep>summary:hover{background:#fafbfc}
+.ep .epid{font-weight:700;font-size:12px;color:#fff;background:#0f172a;border-radius:6px;padding:2px 8px}
+.ep .epname{font-weight:600;font-size:15px}
+.ep .win{color:var(--ink3);font-size:12px}
+.ep .body{padding:0 18px 16px;border-top:1px dashed var(--line)}
+.prop{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin:12px 0;font-size:13px}
+.prop::before{content:"核心命题（可证伪）";display:block;font-size:11px;color:#b45309;font-weight:600;margin-bottom:2px}
+.quote{border-left:3px solid var(--c-industry);padding:4px 12px;margin:6px 0;color:var(--ink2);font-size:12.5px;background:#fafaf9}
+.tracks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.track{border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:12.5px}
+.track b{display:block;font-size:11px;margin-bottom:2px}
+.track.a b{color:#d97706}.track.f b{color:#059669}.track.p b{color:#2563eb}.track.e b{color:#7c3aed}
+.falsify{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:8px 12px;font-size:12.5px;margin:8px 0}
+.falsify::before{content:"反证条件";display:block;font-size:11px;color:#b91c1c;font-weight:600}
+.verdict{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;font-size:12.5px;margin:8px 0}
+.verdict::before{content:"事后结论";display:block;font-size:11px;color:#15803d;font-weight:600}
+.stages{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.stage{font-size:11px;background:var(--chip);border-radius:6px;padding:3px 9px;color:var(--ink2)}
+.epchart{height:390px;margin:10px 0 4px;border:1px solid var(--line);border-radius:10px;background:#fcfcfd}
+.epchart-cap{font-size:11.5px;color:var(--ink3);margin:8px 0 2px}
+.mev{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 4px}
+.mev span{font-size:11px;background:var(--chip);border-radius:6px;padding:2px 8px;color:var(--ink2)}
+.mev b{font-weight:600;color:var(--ink)}
+.btn-warn{border-color:#d97706;color:#b45309}
+footer{padding:30px 0 50px;color:var(--ink3);font-size:12px}
+footer .card{font-size:12px;color:var(--ink2)}
+.kv{font-size:12.5px;color:var(--ink2)}
+.kv b{color:var(--ink)}
+.toc-eps{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.toc-eps a{font-size:11.5px;background:var(--chip);border-radius:6px;padding:3px 9px;color:var(--ink2)}
+.toc-eps a:hover{background:#e2e8f0;color:var(--ink)}
+@media(max-width:900px){.tracks{grid-template-columns:1fr}#mainChart{height:640px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <h1>9·24 牛市叙事考古 <span style="font-weight:300;color:#64748b">|</span> <span style="font-size:18px;color:#cbd5e1">叙事 · 资金 · 价格 · 业绩 四轨复盘</span></h1>
+  <div class="sub">区间：2024-01-01（熊市末尾）→ 2026-07-24（长鑫科技已发行、未挂牌） · 数据截止：2026-07-24 收盘 · 生成：2026-07-25 · 时区 Asia/Shanghai</div>
+  <div class="regime" id="regimeBox"></div>
+  <div class="stats" id="statBox"></div>
+</div></header>
+<nav><div class="wrap">
+  <a href="#s1">四轨总时间轴</a><a href="#s2">叙事生命周期</a><a href="#s3">资金注意力迁移</a>
+  <a href="#s4">标的角色热力</a><a href="#s5">预期—兑现</a><a href="#s6">叙事卡片</a><a href="#s7">底与顶</a><a href="#s8">数据边界</a>
+</div></nav>
+
+<div class="wrap">
+
+<section id="s1">
+  <h2><span class="no">壹</span>四轨总时间轴</h2>
+  <p class="lead">自上而下四条轨：<b>叙事泳道</b>（每条叙事事件段，颜色=驱动类型，圆点=生命周期阶段）→ <b>价格轨</b>（指数，可切换绝对点位/归一化）→ <b>资金轨</b>（全A成交额柱 + 两融余额关键点 + 港股成交额）。虚线=关键事件（悬停查看）。点击泳道中的叙事可在价格轨上高亮其窗口。</p>
+  <div class="card">
+    <div class="btnrow">
+      <button class="btn active" id="btnAbs">绝对点位</button>
+      <button class="btn" id="btnNorm">归一化对比（2023-11=100）</button>
+      <button class="btn" id="btnInd">行业基准（点位+成交量）</button>
+      <button class="btn btn-warn" id="btnReset">重置视图</button>
+      <span style="flex:1"></span>
+      <span class="kv">提示：拖动任意图表缩放，<b>四张时间图联动</b>；点击泳道叙事 → 全部图表聚焦该窗口并打开卡片
+      &nbsp;|&nbsp;驱动类型：<span class="dot" style="background:var(--c-regime)"></span>市场制度 <span class="dot" style="background:var(--c-policy)"></span>政策 <span class="dot" style="background:var(--c-industry)"></span>产业 <span class="dot" style="background:var(--c-capital)"></span>资金 <span class="dot" style="background:var(--c-macro)"></span>宏观</span>
+    </div>
+    <div id="mainChart" class="chart"></div>
+    <p class="legend-note">资金柱着色：灰&lt;1万亿 ≤ 橙 &lt;2万亿 ≤ 红。两融关键点为当时公开报道值（非逐日序列）。行业基准中的半导体为 512480 ETF 跟踪口径，详见页尾说明。红涨绿跌（A股惯例）。</p>
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="no">贰</span>叙事生命周期图</h2>
+  <p class="lead">每条叙事一段横带，分段颜色=生命周期阶段（灰=铺垫，橙=点火，黄=确认，绿=扩散，红=拥挤，蓝=迁移/出清，深灰=终结）。阶段边界取当时可观测事件日期；新叙事经常在旧叙事尚未终结时启动（允许重叠）。悬停查看各阶段定义。</p>
+  <div class="card"><div id="lifeChart" class="chart"></div></div>
+</section>
+
+<section id="s3">
+  <h2><span class="no">叁</span>资金注意力迁移图</h2>
+  <p class="lead">上图：A股叙事篮子成交额占全A成交额比例——读作"边际交易注意力的迁移"，而非净流入（成交量≠净资金流）。下图：港股叙事篮子成交额（亿港元）。点击图例可单独追踪某条叙事。可见：券商（924）→ 半导体/算力 → 存储的三次注意力接力，以及红利篮子在每次拥挤顶后的防御性回归。</p>
+  <div class="card"><div id="flowChart" class="chart"></div></div>
+  <div class="card"><div id="flowHKChart" class="chart"></div></div>
+</section>
+
+<section id="s4">
+  <h2><span class="no">肆</span>标的角色热力图</h2>
+  <p class="lead">行=叙事篮子标的（按叙事分组、标注角色），列=月份，颜色=当月涨跌幅（红涨绿跌，截断±35%）。可以清楚看到：资金如何从核心锚定股扩散到高弹性股与纯概念，以及见顶后的分化——同一叙事内部"相关性下降、离散度上升"往往早于指数见顶。</p>
+  <div class="card"><div id="heatChart" class="chart"></div></div>
+</section>
+
+<section id="s5">
+  <h2><span class="no">伍</span>预期—实际兑现表</h2>
+  <p class="lead">复盘的核心防偏器：<b>当时的叙事原话</b>与<b>反证条件</b>必须使用当时资料。净利润增长80%若市场此前预期150%仍是证伪；增长20%若预期为负则是重大预期差。</p>
+  <div class="card" style="overflow-x:auto"><table class="tb" id="expectTable"></table></div>
+</section>
+
+<section id="s6">
+  <h2><span class="no">陆</span>叙事事件段卡片（24段）</h2>
+  <p class="lead">每段包含：生命周期阶段、当时叙事原话、可证伪命题、受益路径、A/F/P/E四轨证据、标的角色、反证条件与事后结论。</p>
+  <div class="toc-eps" id="epToc"></div>
+  <div id="epCards"></div>
+</section>
+
+<section id="s7">
+  <h2><span class="no">柒</span>五种底 · 六种顶（市场级）</h2>
+  <p class="lead">一轮行情没有唯一的底部或顶部。把"它什么时候见底/见顶"拆成五个/六个独立问题，才能看见价格、资金、叙事与基本面的先后次序。</p>
+  <div class="card" style="overflow-x:auto"><table class="tb" id="bottomTable"></table></div>
+  <div class="card" style="overflow-x:auto"><table class="tb" id="topTable"></table></div>
+</section>
+
+<section id="s8">
+  <h2><span class="no">捌</span>数据边界与信源</h2>
+  <footer style="padding:0 0 40px"><div class="card" id="limitBox"></div></footer>
+</section>
+
+</div>
+
+<script>/*__ECHARTS__*/</script>
+<script>
+const EP = /*__DATA_EPISODES__*/;
+const IDX = /*__DATA_INDEX__*/;
+const BSK = /*__DATA_BASKETS__*/;
+const STK = /*__DATA_STOCKS__*/;
+const EPC = /*__DATA_EPCHARTS__*/;
+</script>
+<script>
+/* ================= 基础工具 ================= */
+const TRACK_COLOR = {"市场制度":"#7c3aed","政策":"#2563eb","产业":"#d97706","资金":"#059669","宏观":"#dc2626"};
+const TRACK_BADGE = {"市场制度":"b-regime","政策":"b-policy","产业":"b-industry","资金":"b-capital","宏观":"b-macro"};
+const PHASE_COLOR = {"铺垫":"#cbd5e1","点火":"#f97316","确认":"#facc15","扩散":"#22c55e","拥挤":"#ef4444","迁移":"#3b82f6","出清":"#3b82f6","终结":"#64748b","点火(空)":"#0ea5e9","修复":"#a78bfa","拉锯":"#94a3b8"};
+const MEV_COL = {"政策":"#2563eb","宏观":"#dc2626","事件":"#64748b","财报":"#7c3aed","研报":"#0891b2","资金":"#059669"};
+const ts = d => new Date(d + "T00:00:00+08:00").getTime();
+const fmtLocal = t => { const d=new Date(t); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const pairs = m => Object.entries(m).map(([d,v]) => [d, v]);
+const FONT = {fontFamily:"-apple-system,'PingFang SC','Microsoft YaHei',sans-serif"};
+function parseStageDate(s){ const m = s.match(/\d{4}-\d{2}-\d{2}/); return m ? m[0] : null; }
+function stagePhase(s){ const k = Object.keys(PHASE_COLOR).find(p => s.startsWith(p)); return k || null; }
+
+/* ================= 头部结论与统计 ================= */
+(function header(){
+  document.getElementById('regimeBox').innerHTML =
+    "<b>市场状态（2026-07-24收盘）：</b>本轮牛市处于<b>第三次拥挤出清后的修复拉锯期</b>——价格顶（2026-05-14 盘中4258.86）先于资金顶（2026-07-01 两融30304.74亿）一个半月出现，"
+    +"7月以美股AI抛售为引信完成杠杆出清（融资余额连降13日至2.72万亿），07-20盘中3741.11见底后弱修复至3814.20。"
+    +"叙事层面，最长命主线'存储超级周期'首次重伤但未证伪；市场正等待中报业绩与长鑫科技挂牌给出下一次'叙事弹性'测试。";
+  const sh24 = IDX.series['SH.000001'].close['2024-09-18'], shNow = IDX.series['SH.000001'].close['2026-07-24'];
+  const hsi24 = IDX.series['HK.800000'].close['2024-09-23'], hsiNow = IDX.series['HK.800000'].close['2026-07-24'];
+  const chips = [
+    ["沪指 2026-07-24", shNow.toFixed(2)],
+    ["自2024-09-18底部", "+" + ((shNow/sh24-1)*100).toFixed(1) + "%"],
+    ["恒指同期", "+" + ((hsiNow/hsi24-1)*100).toFixed(1) + "%"],
+    ["历史天量", "36987亿（2026-01-13）"],
+    ["两融历史峰值", "30305亿（2026-07-01）"],
+    ["南向2025净买入", "超1.4万亿港元"],
+    ["叙事事件段", EP.episodes.length + "段"],
+    ["跟踪标的", Object.keys(STK).length + "只"]
+  ];
+  document.getElementById('statBox').innerHTML = chips.map(c=>`<div class="stat">${c[0]}<b>${c[1]}</b></div>`).join('');
+})();
+
+/* ================= 壹：四轨总时间轴 ================= */
+const CH = {};
+const mainChart = echarts.init(document.getElementById('mainChart'));
+CH.main = mainChart;
+/* 叙事泳道：按驱动类型分泳道、贪心分配子行 */
+const TRACKS = ["市场制度","政策","产业","资金","宏观"];
+const laneOf = {}; let laneNames = [];
+(function buildLanes(){
+  const byTrack = {};
+  EP.episodes.forEach(e => { (byTrack[e.track] = byTrack[e.track]||[]).push(e); });
+  TRACKS.forEach(t => {
+    const eps = (byTrack[t]||[]).sort((a,b)=> a.window.start < b.window.start ? -1 : 1);
+    const lanes = [];
+    eps.forEach(e => {
+      let placed = -1;
+      for (let i=0;i<lanes.length;i++){
+        if (lanes[i] <= ts(e.window.start)) { placed = i; break; }
+      }
+      if (placed < 0) { lanes.push(0); placed = lanes.length-1; }
+      lanes[placed] = ts(e.window.end);
+      laneOf[e.id] = laneNames.length + placed;
+      e._laneName = t;
+    });
+    for (let i=0;i<lanes.length;i++) laneNames.push(t + (lanes.length>1 ? "·"+(i+1) : ""));
+  });
+})();
+const laneCount = laneNames.length;
+const BAND_DATA = EP.episodes.map(e => ({value:[laneOf[e.id], ts(e.window.start), ts(e.window.end)], eid:e.id, name:e.name, track:e.track, phase:e.phase}));
+function renderEpBand(params, api){
+  const data = BAND_DATA[params.dataIndex];
+  if(!data) return {type:'group', children:[]};
+  const lane = data.value[0], start = api.coord([data.value[1], lane]), end = api.coord([data.value[2], lane]);
+  const h = 13;
+  const children = [];
+  children.push({
+    type:'rect',
+    shape:{x:start[0], y:start[1]-h/2, width:Math.max(end[0]-start[0],2), height:h, r:3},
+    style:{fill: TRACK_COLOR[data.track], opacity:.82}
+  });
+  /* 阶段圆点 */
+  const eps = EP.episodes.find(x=>x.id===data.eid);
+  Object.entries(eps.stages||{}).forEach(([ph, desc])=>{
+    const d = parseStageDate(desc); if(!d) return;
+    const c = api.coord([ts(d), lane]);
+    children.push({type:'circle', shape:{cx:c[0], cy:c[1], r:3.2}, style:{fill:'#fff', stroke:PHASE_COLOR[ph]||'#64748b', lineWidth:2}});
+  });
+  /* 名称 */
+  if (end[0]-start[0] > 46){
+    children.push({type:'text', style:{x:start[0]+4, y:start[1], text:data.name.length>10?data.name.slice(0,10):data.name, fill:'#fff', fontSize:10, align:'left', verticalAlign:'middle', fontWeight:600}});
+  }
+  return {type:'group', children};
+}
+function eventMarkLines(){
+  const tcol = {"政策":"#2563eb","宏观":"#dc2626","产业":"#d97706","资金":"#059669","价格":"#64748b","业绩":"#7c3aed"};
+  return EP.timeline_events.filter(e=>e.importance>=2).map(e=>({
+    xAxis:e.date, name:e.label,
+    lineStyle:{color:tcol[e.type]||'#94a3b8', type: e.importance>=3?'solid':'dashed', width: e.importance>=3?1.4:1, opacity:.75},
+    label:{show: e.importance>=3, rotate:90, fontSize:9, color:'#64748b', distance:4, formatter:e.label}
+  }));
+}
+const MKT_CODES = ['SH.000001','SH.000300','SH.000016','SZ.399001','SZ.399006','SH.000688','SH.000852','SH.000922','HK.800000','HK.800100','HK.800700'];
+function buildMain(mode){
+  const abs = mode==='abs', ind = mode==='ind';
+  const indCodes = Object.keys(IDX.series).filter(c=>!MKT_CODES.includes(c));
+  const IND_PAL = ['#0072b2','#d55e00','#009e73','#cc79a7','#e69f00','#56b4e9','#7c3aed','#0f766e','#be123c','#65a30d','#c2410c','#4338ca','#0891b2','#a21caf','#b45309','#64748b'];
+  const priceSeries = abs ? [
+    {code:'SH.000001', y:1, color:'#dc2626', w:2},
+    {code:'SH.000688', y:1, color:'#7c3aed', w:1.2},
+    {code:'SZ.399006', y:1, color:'#f97316', w:1.2},
+    {code:'HK.800000', y:3, color:'#2563eb', w:1.6},
+    {code:'HK.800700', y:3, color:'#06b6d4', w:1.2}
+  ] : ind ? [{code:'SH.000001', y:1, color:'#dc2626', w:2.2}].concat(
+      indCodes.map((c,i)=>({code:c, y:1, color:IND_PAL[i%10], w:1.4})))
+  : ['SH.000001','SH.000300','SZ.399006','SH.000688','SH.000852','SH.000922','HK.800000','HK.800700'].map((c,i)=>({code:c,y:1,color:['#dc2626','#f59e0b','#f97316','#7c3aed','#84cc16','#059669','#2563eb','#06b6d4'][i],w:1.4}));
+  const series = priceSeries.map((s,i)=>({
+    name:IDX.series[s.code].name, type:'line', xAxisIndex:1, yAxisIndex: s.y,
+    data: pairs(abs ? IDX.series[s.code].close : IDX.series[s.code].norm),
+    showSymbol:false, lineStyle:{width:s.w, color:s.color}, itemStyle:{color:s.color},
+    emphasis:{focus:'series'}, connectNulls:false,
+    markLine: i===0 ? {silent:false, symbol:'none', data:eventMarkLines(), emphasis:{label:{show:true, position:'insideEndTop'}}} : undefined
+  }));
+  if(ind){
+    /* 行业模式：资金轨=各行业/主题基准成交额（虚线·量） */
+    indCodes.forEach((c,i)=>{
+      series.push({name:IDX.series[c].name+'·量', type:'line', xAxisIndex:2, yAxisIndex:2,
+        data: pairs(IDX.series[c].turnover||{}),
+        showSymbol:false, connectNulls:true,
+        lineStyle:{width:1, color:IND_PAL[i%10], type:'dashed', opacity:.8}, itemStyle:{color:IND_PAL[i%10]}});
+    });
+  } else {
+  /* 成交额柱 */
+  series.push({
+    name:'全A成交额(亿元)', type:'bar', xAxisIndex:2, yAxisIndex:2,
+    data: Object.entries(IDX.turnover_a).filter(([d,v])=>v!=null),
+    itemStyle:{color: p=> p.value[1]>=20000 ? '#ef4444' : (p.value[1]>=10000 ? '#f59e0b' : '#cbd5e1')}
+  });
+  series.push({
+    name:'港股成交额(亿港元)', type:'line', xAxisIndex:2, yAxisIndex:4,
+    data: Object.entries(IDX.turnover_hk).filter(([d,v])=>v!=null),
+    showSymbol:false, lineStyle:{width:1, color:'#93c5fd'}, itemStyle:{color:'#93c5fd'}
+  });
+  /* 两融关键点 */
+  const MARGIN = [
+    ["2024-09-30",13600,"~1.36万亿"],["2024-11-15",18400,"~1.84万亿"],["2025-01-07",18300,""],
+    ["2025-08-05",20003,"破2万亿"],["2025-12-17",25000,"2.5万亿"],["2026-05-08",27700,"2.77万亿"],
+    ["2026-07-01",30305,"峰值3.03万亿"],["2026-07-20",27176,"连降13日"]
+  ];
+  series.push({
+    name:'两融余额关键点(亿元)', type:'line', xAxisIndex:2, yAxisIndex:2,
+    data: MARGIN.map(m=>[m[0],m[1],m[2]]), symbol:'circle', symbolSize:7,
+    lineStyle:{color:'#0ea5e9', type:'dashed', width:1.5}, itemStyle:{color:'#0ea5e9'},
+    label:{show:true, formatter:p=>p.data[2], fontSize:10, color:'#0369a1', position:'top'},
+    tooltip:{formatter:p=>`两融余额 ${p.data[1]}亿<br>${p.data[0]} ${p.data[2]}`}
+  });
+  }
+  /* 选中叙事高亮 */
+  series.push({name:'_hl', type:'line', xAxisIndex:1, yAxisIndex:1, data:[], markArea:{silent:true, itemStyle:{color:'rgba(217,119,6,0.08)'}, data: window._hlRange ? [[{xAxis:window._hlRange[0]},{xAxis:window._hlRange[1]}]] : []}});
+  return {
+    animation:false, textStyle:FONT,
+    grid:[
+      {left:64, right:64, top:8, height: laneCount*17+14},
+      {left:64, right:64, top: laneCount*17+40, height: 330},
+      {left:64, right:64, top: laneCount*17+390, height: 120}
+    ],
+    xAxis:[
+      {type:'time', gridIndex:0, show:false, min:'2023-12-25', max:'2026-08-05'},
+      {type:'time', gridIndex:1, show:false, min:'2023-12-25', max:'2026-08-05'},
+      {type:'time', gridIndex:2, min:'2023-12-25', max:'2026-08-05', axisLabel:{fontSize:10, color:'#94a3b8'}}
+    ],
+    yAxis:[
+      {type:'category', gridIndex:0, data: laneNames.map((n,i)=>i), inverse:true,
+       axisLabel:{fontSize:10, color:'#64748b', formatter:v=>laneNames[v]}, axisLine:{show:false}, axisTick:{show:false}, splitLine:{show:false}},
+      {type:'value', gridIndex:1, scale:true, name: abs?'A股':'归一化', nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10,color:'#94a3b8'}, splitLine:{lineStyle:{color:'#f1f5f9'}}},
+      {type:'value', gridIndex:2, name:'亿元', nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10,color:'#94a3b8', formatter:v=> v>=10000 ? (v/10000)+'万亿' : v}, splitLine:{show:false}},
+      {type:'value', gridIndex:1, position:'right', scale:true, name:'港股', show: abs, nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10,color:'#94a3b8'}, splitLine:{show:false}},
+      {type:'value', gridIndex:2, position:'right', name:'亿港元', show: !ind, nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10,color:'#94a3b8'}, splitLine:{show:false}}
+    ],
+    dataZoom:[{type:'inside', xAxisIndex:[0,1,2]},{type:'slider', xAxisIndex:[0,1,2], height:16, bottom:2, borderColor:'#e2e8f0', fillerColor:'rgba(37,99,235,.08)'}],
+    axisPointer:{link:[{xAxisIndex:'all'}], label:{backgroundColor:'#334155'}},
+    tooltip:{trigger:'axis', confine:true, textStyle:{fontSize:12},
+      formatter: ps => {
+        const d = ps[0] ? ps[0].value[0] : '';
+        let html = '<b>'+d+'</b>';
+        ps.forEach(p=>{
+          if(p.seriesName==='_hl') return;
+          if(p.seriesName==='叙事泳道'){
+            const e = EP.episodes.find(x=>x.id===p.data.eid);
+            if(e) html += `<br><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${TRACK_COLOR[e.track]};margin-right:5px"></span><b>${e.id} ${e.name}</b>（${e.phase}）`;
+            return;
+          }
+          const v = Array.isArray(p.value) ? p.value[1] : p.value;
+          if(v==null) return;
+          const isVol = p.seriesName.endsWith('·量');
+          const nm = isVol ? p.seriesName.slice(0,-2) : p.seriesName;
+          const unit = isVol ? ' 亿' : '';
+          html += `<br><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:5px"></span>${nm}: <b>${typeof v==='number'? v.toLocaleString('zh-CN',{maximumFractionDigits:2}) : v}${unit}</b>`;
+        });
+        const evs = EP.timeline_events.filter(e=>e.date===d);
+        evs.forEach(e=> html += `<br><span style="color:#d97706">◆ ${e.label}</span>`);
+        return html;
+      }},
+    legend:{show:true, top: laneCount*17+24, itemWidth:14, itemHeight:2, textStyle:{fontSize:11, color:'#475569'}, data: priceSeries.map(s=>IDX.series[s.code].name)},
+    series:[{
+      name:'叙事泳道', type:'custom', xAxisIndex:0, yAxisIndex:0,
+      renderItem: renderEpBand, data: BAND_DATA,
+      encode:{x:[1,2], y:0, tooltip:[1,2]},
+      tooltip:{formatter: p=>{ const e=EP.episodes.find(x=>x.id===p.data.eid);
+        return `<b>${e.id} ${e.name}</b><br>${e.window.start} ~ ${e.window.end}<br>驱动:${e.track} · 当前阶段:${e.phase}<br><span style="color:#94a3b8">点击查看叙事卡片</span>`;}}
+    }].concat(series)
+  };
+}
+let mainMode = 'abs';
+function refreshMain(){ mainChart.setOption(buildMain(mainMode), true); }
+refreshMain();
+window._mainChart = mainChart;
+document.getElementById('btnAbs').onclick = ()=>{ mainMode='abs'; setBtn('btnAbs'); refreshMain(); };
+document.getElementById('btnNorm').onclick = ()=>{ mainMode='norm'; setBtn('btnNorm'); refreshMain(); };
+document.getElementById('btnInd').onclick = ()=>{ mainMode='ind'; setBtn('btnInd'); refreshMain(); };
+document.getElementById('btnReset').onclick = ()=>{
+  window._hlRange = null; refreshMain();
+  [CH.life, CH.flow, CH.flowHK].forEach(c=>{ if(c) c.dispatchAction({type:'dataZoom', start:0, end:100}); });
+};
+function setBtn(id){ ['btnAbs','btnNorm','btnInd'].forEach(b=>document.getElementById(b).classList.toggle('active', b===id)); }
+function zoomToWindow(start, end, padDays){
+  const s = fmtLocal(ts(start) - (padDays||10)*864e5);
+  const en = fmtLocal(ts(end) + (padDays||10)*864e5);
+  [CH.main, CH.life, CH.flow, CH.flowHK].forEach(c=>{
+    if(c) c.dispatchAction({type:'dataZoom', startValue:s, endValue:en});
+  });
+}
+mainChart.on('click', p=>{
+  if(p.seriesName==='叙事泳道' && p.data.eid){ selectEpisode(p.data.eid); }
+});
+function selectEpisode(eid){
+  const e = EP.episodes.find(x=>x.id===eid); if(!e) return;
+  window._hlRange = [e.window.start, e.window.end];
+  refreshMain();
+  zoomToWindow(e.window.start, e.window.end, 10);
+  const det = document.getElementById('ep-'+eid);
+  if(det){ det.open = true; det.scrollIntoView({behavior:'smooth', block:'center'}); det.style.boxShadow='0 0 0 2px #d97706'; setTimeout(()=>det.style.boxShadow='', 2200); }
+}
+
+/* ================= 贰：生命周期 ================= */
+(function life(){
+  const eps = EP.episodes;
+  const lifeNames = eps.map(e=>e.id+' '+e.name.slice(0,12));
+  const segData = [], pointData = [];
+  eps.forEach((e, i)=>{
+    const row = lifeNames[i];
+    const st = Object.entries(e.stages||{}).map(([ph,desc])=>({ph, desc, date:parseStageDate(desc)})).filter(s=>s.date).sort((a,b)=> a.date<b.date?-1:1);
+    if(!st.length){ segData.push({value:[row, ts(e.window.start), ts(e.window.end)], ph:e.phase, eid:e.id}); return; }
+    for(let k=0;k<st.length;k++){
+      const s0 = st[k], s1 = st[k+1];
+      const segStart = k===0 ? e.window.start : s0.date;
+      const segEnd = s1 ? s1.date : e.window.end;
+      segData.push({value:[row, ts(segStart), ts(segEnd)], ph:s0.ph, eid:e.id, desc:s0.desc});
+      pointData.push({value:[row, ts(s0.date)], ph:s0.ph, eid:e.id, desc:s0.ph+'：'+s0.desc});
+    }
+  });
+  const chart = echarts.init(document.getElementById('lifeChart'));
+  CH.life = chart;
+  chart.setOption({
+    animation:false, textStyle:FONT,
+    grid:{left:210, right:30, top:10, bottom:60},
+    xAxis:{type:'time', min:'2023-12-25', max:'2026-08-05', axisLabel:{fontSize:10, color:'#94a3b8'}},
+    yAxis:{type:'category', data: lifeNames, inverse:true, axisLabel:{fontSize:10.5, color:'#334155'}, axisLine:{show:false}, axisTick:{show:false}},
+    dataZoom:[{type:'inside', xAxisIndex:0},{type:'slider', xAxisIndex:0, height:16, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(37,99,235,.08)'}],
+    tooltip:{confine:true, formatter:p=>{
+      const e = EP.episodes.find(x=>x.id===p.data.eid);
+      if(p.seriesName==='阶段点') return `<b>${e.id} ${e.name}</b><br>${p.data.desc}`;
+      return `<b>${e.id} ${e.name}</b><br>${e.window.start} ~ ${e.window.end}<br>阶段:${p.data.ph||e.phase}`;
+    }},
+    series:[
+      {name:'生命周期', type:'custom',
+        renderItem:(params, api)=>{
+          const item = segData[params.dataIndex];
+          if(!item) return {type:'group', children:[]};
+          const i=item.value[0], s=api.coord([item.value[1],i]), en=api.coord([item.value[2],i]);
+          const h=14, ph=item.ph||'铺垫';
+          return {type:'group', children:[
+            {type:'rect', shape:{x:s[0], y:s[1]-h/2, width:Math.max(en[0]-s[0],1.5), height:h, r:2}, style:{fill:PHASE_COLOR[ph]||'#cbd5e1', opacity:.9}}
+          ]};
+        },
+        data: segData},
+      {name:'阶段点', type:'scatter', symbolSize:7,
+        itemStyle:{color:'#0f172a', borderColor:'#fff', borderWidth:1.5},
+        data: pointData}
+    ]
+  });
+  chart.on('click', p=>{ if(p.data && p.data.eid) selectEpisode(p.data.eid); });
+  window.addEventListener('resize', ()=>chart.resize());
+})();
+
+/* ================= 叁：资金注意力迁移 ================= */
+(function flow(){
+  const aKeys = Object.keys(BSK).filter(k=>BSK[k].share);
+  const hkKeys = Object.keys(BSK).filter(k=>BSK[k].turnover_hk);
+  const c = echarts.init(document.getElementById('flowChart'));
+  CH.flow = c;
+  const FLOW_DEFAULT = new Set(['红利/中特估','券商/大金融','半导体自主可控','DeepSeek/中国AI资产重估','AI算力/国产芯片主升','存储超级周期/长鑫叙事']);
+  const sel = {}; aKeys.forEach(k=>{ const nm = BSK[k].name.split('（')[0]; sel[nm] = FLOW_DEFAULT.has(nm); });
+  const palette = ['#dc2626','#2563eb','#d97706','#059669','#7c3aed','#0891b2','#be185d','#65a30d','#9333ea','#0d9488','#b45309','#475569'];
+  c.setOption({
+    animation:false, textStyle:FONT,
+    color: palette,
+    grid:{left:56, right:20, top:52, bottom:64},
+    xAxis:{type:'time', min:'2023-12-25', max:'2026-08-05', axisLabel:{fontSize:10, color:'#94a3b8'}},
+    yAxis:{type:'value', name:'占全A成交%', nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10, color:'#94a3b8'}, splitLine:{lineStyle:{color:'#f1f5f9'}}},
+    legend:{top:0, type:'scroll', textStyle:{fontSize:11}, pageTextStyle:{color:'#475569'}, selected: sel},
+    dataZoom:[{type:'inside'},{type:'slider', height:16, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(37,99,235,.08)'}],
+    tooltip:{trigger:'axis', confine:true, textStyle:{fontSize:12}, order:'valueDesc', valueFormatter:v=> v==null?'-':(+v).toFixed(2)+'%'},
+    series: aKeys.map(k=>({
+      name: BSK[k].name.split('（')[0], type:'line', smooth:.25, showSymbol:false,
+      data: pairs(BSK[k].share), lineStyle:{width:1.6}, emphasis:{focus:'series'}
+    }))
+  });
+  const c2 = echarts.init(document.getElementById('flowHKChart'));
+  CH.flowHK = c2;
+  c2.setOption({
+    animation:false, textStyle:FONT, color: palette,
+    title:{text:'港股叙事篮子成交额（亿港元）', textStyle:{fontSize:12, color:'#64748b', fontWeight:500}, left:6, top:0},
+    grid:{left:56, right:20, top:40, bottom:60},
+    xAxis:{type:'time', min:'2023-12-25', max:'2026-08-05', axisLabel:{fontSize:10, color:'#94a3b8'}},
+    yAxis:{type:'value', name:'亿港元', nameTextStyle:{fontSize:10,color:'#94a3b8'}, axisLabel:{fontSize:10, color:'#94a3b8'}, splitLine:{lineStyle:{color:'#f1f5f9'}}},
+    legend:{top:0, type:'scroll', textStyle:{fontSize:11}},
+    dataZoom:[{type:'inside'},{type:'slider', height:16, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(37,99,235,.08)'}],
+    tooltip:{trigger:'axis', confine:true, textStyle:{fontSize:12}, valueFormatter:v=> v==null?'-':(+v).toFixed(1)+'亿'},
+    series: hkKeys.map(k=>({
+      name: BSK[k].name.split('（')[0], type:'line', smooth:.25, showSymbol:false,
+      data: pairs(BSK[k].turnover_hk), lineStyle:{width:1.6}, emphasis:{focus:'series'}
+    }))
+  });
+  window.addEventListener('resize', ()=>{c.resize(); c2.resize();});
+})();
+
+/* ================= 肆：标的角色热力 ================= */
+(function heat(){
+  /* 月份轴 */
+  const months = new Set();
+  Object.values(STK).forEach(s=>Object.keys(s.monthly_ret).forEach(m=>months.add(m)));
+  const mArr = [...months].sort();
+  /* 行：按篮子顺序 */
+  const uni = EP ? null : null;
+  const basketOrder = [];
+  document.__basketOrder__ = basketOrder;
+  const rows = [], rowBasket = [], data = [];
+  const bKeys = Object.keys(BSK);
+  bKeys.forEach(k=>{
+    const ms = BSK[k].members;
+    ms.forEach(m=>{
+      const st = STK[m.code]; if(!st) return;
+      const label = m.name;
+      if(rows.includes(label)) return;
+      rows.push(label); rowBasket.push(k);
+    });
+  });
+  rows.forEach((label, y)=>{
+    const code = Object.keys(STK).find(cd=>STK[cd].name===label);
+    if(!code) return;
+    mArr.forEach((mo, x)=>{
+      const v = STK[code].monthly_ret[mo];
+      if(v!=null) data.push([x, y, v]);
+    });
+  });
+  const chart = echarts.init(document.getElementById('heatChart'));
+  chart.setOption({
+    animation:false, textStyle:FONT,
+    grid:{left:130, right:20, top:30, bottom:110},
+    xAxis:{type:'category', data:mArr, axisLabel:{fontSize:10, color:'#64748b', rotate:45}, splitArea:{show:true}},
+    yAxis:{type:'category', data:rows, inverse:true, axisLabel:{fontSize:10.5, color:'#334155'}, axisLine:{show:false}, axisTick:{show:false}},
+    visualMap:{min:-35, max:35, calculable:true, orient:'horizontal', left:'center', bottom:2,
+      text:['涨 +35%','跌 -35%'], textStyle:{fontSize:11, color:'#64748b'},
+      inRange:{color:['#15803d','#86efac','#f8fafc','#fca5a5','#b91c1c']}},
+    tooltip:{confine:true, formatter:p=>{
+      const label = rows[p.value[1]];
+      const code = Object.keys(STK).find(cd=>STK[cd].name===label);
+      const st = STK[code];
+      return `<b>${label}</b>（${st.roles}）<br>${mArr[p.value[0]]} 涨跌：<b style="color:${p.value[2]>=0?'#dc2626':'#16a34a'}">${p.value[2]}%</b><br><span style="color:#94a3b8">价格底 ${st.marks['价格底'].date} → 价格顶 ${st.marks['价格顶'].date}，自顶回撤 ${st.marks['自顶回撤%']}%</span>`;
+    }},
+    series:[{type:'heatmap', data, label:{show:false}, itemStyle:{borderColor:'#fff', borderWidth:1},
+      emphasis:{itemStyle:{shadowBlur:6, shadowColor:'rgba(0,0,0,.25)'}}}]
+  });
+  window.addEventListener('resize', ()=>chart.resize());
+})();
+
+/* ================= 伍：预期—兑现表 ================= */
+(function expect(){
+  const rows = EP.episodes.map(e=>{
+    const verdictShort = (e.verdict||'').length>90 ? e.verdict.slice(0,90)+'…' : (e.verdict||'');
+    const earnShort = (e.earnings||'').length>70 ? e.earnings.slice(0,70)+'…' : (e.earnings||'');
+    return `<tr>
+      <td style="white-space:nowrap"><b>${e.id}</b> <a href="#ep-${e.id}" onclick="selectEpisode('${e.id}');return false;">${e.name}</a><br><span class="badge ${TRACK_BADGE[e.track]}">${e.track}</span> <span class="badge b-phase">${e.phase}</span></td>
+      <td>${e.proposition}</td>
+      <td>${earnShort}</td>
+      <td>${verdictShort}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('expectTable').innerHTML =
+    `<thead><tr><th style="width:220px">叙事 / 当前阶段</th><th>当时隐含预期（可证伪命题）</th><th style="width:280px">业绩轨证据</th><th style="width:300px">股价反应与事后结论</th></tr></thead><tbody>${rows}</tbody>`;
+})();
+
+/* ================= 陆：叙事卡片 ================= */
+const EP_CHARTS = {};
+function buildEpChart(eid){
+  const pack = EPC.episodes[eid];
+  const dates = EPC.dates;
+  const e = EP.episodes.find(x=>x.id===eid);
+  if(!pack || !pack.series.length) return null;
+  /* 色盲友好高对比色板；每张卡片内始终分配不同颜色，避免多条黑线难以区分。 */
+  const palette = ['#0072b2','#d55e00','#009e73','#cc79a7','#e69f00','#56b4e9','#7c3aed','#0f766e','#be123c','#65a30d','#c2410c','#4338ca'];
+  const fixedColors = {
+    'SH.512480':'#d55e00', 'SZ.399389':'#0072b2', 'HK.800700':'#7c3aed',
+    'HK.800704':'#0891b2', 'HK.800805':'#009e73', 'SZ.399971':'#cc79a7'
+  };
+  const isInd = s => s.role === '行业指数' || s.role === '行业ETF' || s.role === '指数';
+  const seriesLabel = s => s.role === '行业ETF' ? `${s.name}（ETF口径）` : (isInd(s) ? `${s.name}(指数)` : s.name);
+  const usedColors = new Set();
+  const colors = pack.series.map((s,i)=>{
+    const candidates = [fixedColors[s.code], ...palette.slice(i), ...palette.slice(0,i)];
+    const color = candidates.find(c=>c && !usedColors.has(c)) || palette[i%palette.length];
+    usedColors.add(color);
+    return color;
+  });
+  /* 全期数据；默认聚焦窗口前后各90天，底部滑块可拉开放大 */
+  const zs = fmtLocal(ts(e.window.start) - 90*864e5);
+  const ze = fmtLocal(ts(e.window.end) + 90*864e5);
+  const priceSeries = pack.series.map((s,i)=>{
+    const base = s.close.find(v=>v!=null);
+    const norm = s.close.map(v=> v==null? null : +(v/base*100).toFixed(1));
+    return {name: seriesLabel(s), type:'line', xAxisIndex:0, yAxisIndex:0,
+      data: dates.map((d,j)=>[d, norm[j]]),
+      showSymbol:false, connectNulls:true,
+      lineStyle:{width: isInd(s)?2.4:1.8, color:colors[i]}, itemStyle:{color:colors[i]},
+      emphasis:{focus:'series'}};
+  });
+  /* 阶段竖线（粗）+ 微观事件竖线（细虚线） */
+  const ml = [];
+  Object.entries(e.stages||{}).forEach(([ph,desc])=>{
+    const d = parseStageDate(desc); if(!d) return;
+    ml.push({xAxis:d, name:ph, lineStyle:{color:PHASE_COLOR[ph]||'#94a3b8', width:2.5, type:'solid', opacity:.65},
+      label:{show:true, formatter:ph, fontSize:9, color:'#475569', position:'insideStartTop'}});
+  });
+  (e.micro_events||[]).forEach(m=>{
+    ml.push({xAxis:m.date, name:m.label, lineStyle:{color:MEV_COL[m.type]||'#64748b', width:1.1, type:'dashed'},
+      label:{show:false, formatter:m.label, fontSize:10}});
+  });
+  if(priceSeries.length){
+    priceSeries[0].markLine = {symbol:'none', silent:false, data:ml,
+      emphasis:{label:{show:true, formatter:p=>p.name, position:'insideEndTop', fontSize:10, color:'#0f172a'}}};
+    /* 叙事窗口高亮 */
+    priceSeries[0].markArea = {silent:true, itemStyle:{color:'rgba(217,119,6,0.07)'},
+      label:{show:true, position:'insideTop', fontSize:10, color:'#b45309', formatter:'叙事窗口'},
+      data:[[{xAxis:e.window.start},{xAxis:e.window.end}]]};
+  }
+  const volSeries = pack.series.map((s,i)=>({
+    name:seriesLabel(s) + '·量', type:'line', xAxisIndex:1, yAxisIndex:1,
+    data: dates.map((d,j)=>[d, s.turnover[j]]),
+    showSymbol:false, connectNulls:true,
+    lineStyle:{width:1, color:colors[i], opacity:.75, type:'dashed'}, itemStyle:{color:colors[i]}}));
+  if(e.featured_indexes){
+    volSeries.push({name:'全A成交额(亿元)', type:'bar', xAxisIndex:1, yAxisIndex:1,
+      data: Object.entries(IDX.turnover_a).filter(([d,v])=>v!=null), itemStyle:{color:'#cbd5e1'}});
+  }
+  return {
+    animation:false, textStyle:FONT,
+    grid:[{left:58,right:16,top:36,height:'46%'},{left:58,right:16,top:'58%',height:'22%'}],
+    xAxis:[{type:'time',gridIndex:0,show:false},{type:'time',gridIndex:1,axisLabel:{fontSize:9.5,color:'#94a3b8'}}],
+    yAxis:[
+      {type:'value',gridIndex:0,scale:true,name:'点位·归一化(首日=100)',nameTextStyle:{fontSize:10,color:'#94a3b8'},axisLabel:{fontSize:10,color:'#94a3b8'},splitLine:{lineStyle:{color:'#f1f5f9'}}},
+      {type:'value',gridIndex:1,name:'成交额(亿·本币)',nameTextStyle:{fontSize:10,color:'#94a3b8'},axisLabel:{fontSize:10,color:'#94a3b8'},splitLine:{show:false}}
+    ],
+    axisPointer:{link:[{xAxisIndex:'all'}], label:{backgroundColor:'#334155'}},
+    legend:{top:2, type:'scroll', textStyle:{fontSize:11}, itemWidth:14, itemHeight:2},
+    dataZoom:[
+      {type:'inside', xAxisIndex:[0,1], startValue:zs, endValue:ze},
+      {type:'slider', xAxisIndex:[0,1], startValue:zs, endValue:ze, height:14, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(217,119,6,.1)'}
+    ],
+    tooltip:{trigger:'axis', confine:true, textStyle:{fontSize:12}, order:'valueDesc',
+      formatter: ps => {
+        const d0 = ps[0]? ps[0].value[0] : '';
+        const isVol = p => p.seriesName.endsWith('·量') || p.seriesName.includes('成交额');
+        let html = '<b>' + d0 + '</b>';
+        const pricePs = ps.filter(p=>!isVol(p)), volPs = ps.filter(p=>isVol(p));
+        const row = p => {
+          const v = Array.isArray(p.value)? p.value[1] : p.value;
+          if(v==null) return '';
+          const unit = isVol(p) ? ' 亿' : ' 点';
+          const nm = isVol(p) ? p.seriesName.replace('·量','') : p.seriesName;
+          return `<br><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:5px"></span>${nm}: <b>${typeof v==='number'? v.toLocaleString('zh-CN',{maximumFractionDigits:1}) : v}${unit}</b>`;
+        };
+        if(pricePs.length) html += '<br><span style="color:#94a3b8;font-size:11px">— 点位(归一化) —</span>' + pricePs.map(row).join('');
+        if(volPs.length) html += '<br><span style="color:#94a3b8;font-size:11px">— 成交额 —</span>' + volPs.map(row).join('');
+        const mvs = (e.micro_events||[]).filter(m=>m.date === d0);
+        mvs.forEach(m=> html += `<br><span style="color:${MEV_COL[m.type]||'#64748b'}">◆ [${m.type}] ${m.label}</span>`);
+        return html;
+      }},
+    series: priceSeries.concat(volSeries)
+  };
+}
+(function cards(){
+  const toc = EP.episodes.map(e=>`<a href="#ep-${e.id}" onclick="selectEpisode('${e.id}');return false;">${e.id} ${e.name.split('：')[0].split('·')[0]}</a>`).join('');
+  document.getElementById('epToc').innerHTML = toc;
+  const html = EP.episodes.map(e=>{
+    const stages = Object.entries(e.stages||{}).map(([ph,desc])=>`<span class="stage"><span class="dot" style="background:${PHASE_COLOR[ph]||'#94a3b8'}"></span>${desc}</span>`).join('');
+    const quotes = (e.quotes||[]).map(q=>`<div class="quote">“${q}”</div>`).join('');
+    const mevs = (e.micro_events||[]).map(m=>`<span><b style="color:${MEV_COL[m.type]||'#64748b'}">${m.type}</b> ${m.date.slice(5)} ${m.label}</span>`).join('');
+    const stocks = (e.stocks||[]).map(s=>{
+      const st = STK[s.code];
+      const mk = st ? `价格底 ${st.marks['价格底'].date}（${st.marks['价格底'].value}） → 价格顶 ${st.marks['价格顶'].date}（${st.marks['价格顶'].value}） · 区间${st.marks['区间涨幅%']}% · 自顶回撤${st.marks['自顶回撤%']}%` : '';
+      return `<tr><td style="white-space:nowrap"><b>${s.name}</b><br><span style="color:#94a3b8;font-size:11px">${s.code}</span></td><td>${s.role}</td><td style="font-size:11.5px;color:#475569">${mk}</td></tr>`;
+    }).join('');
+    return `<details class="ep" id="ep-${e.id}">
+      <summary>
+        <span class="epid">${e.id}</span><span class="epname">${e.name}</span>
+        <span class="badge ${TRACK_BADGE[e.track]}">${e.track}</span><span class="badge b-phase">${e.phase}</span>
+        <span class="win">${e.window.start} ~ ${e.window.end}</span>
+      </summary>
+      <div class="body">
+        <div class="stages">${stages}</div>
+        <div class="prop">${e.proposition}</div>
+        <div class="kv" style="margin:6px 0"><b>受益路径：</b>${e.transmission}</div>
+        <div style="margin:8px 0"><b style="font-size:12px;color:#b45309">当时叙事原话</b>${quotes}</div>
+        <div class="epchart-cap">微观图表：上=标的与行业基准的全期归一化走势（首日=100，<b>实线</b>；每条线采用不同高对比色；橙色带=叙事窗口）· 下=成交额（亿·本币，<b>虚线</b>，图例带"·量"后缀）· 默认聚焦窗口前后各90天，拖动底部滑块可看全期 · 粗竖线=阶段 / 细虚线=事件（悬停显名）</div>
+        <div class="epchart" id="epc-${e.id}"></div>
+        <div class="mev">${mevs}</div>
+        <div class="tracks">
+          <div class="track f"><b>F · 资金证据</b>${e.capital}</div>
+          <div class="track p"><b>P · 价格证据</b>${e.price}</div>
+          <div class="track e"><b>E · 业绩证据</b>${e.earnings}</div>
+          <div class="track a"><b>A · 叙事标的与角色</b>${stocks?`<table class="tb" style="margin-top:4px"><tbody>${stocks}</tbody></table>`:'（市场级事件，无个股篮子）'}</div>
+        </div>
+        <div class="falsify">${e.falsify}</div>
+        <div class="verdict">${e.verdict}</div>
+      </div>
+    </details>`;
+  }).join('');
+  document.getElementById('epCards').innerHTML = html;
+  /* 懒加载：卡片展开时才初始化微观图表 */
+  EP.episodes.forEach(e=>{
+    const det = document.getElementById('ep-'+e.id);
+    det.addEventListener('toggle', ()=>{
+      if(det.open && !EP_CHARTS[e.id]){
+        const opt = buildEpChart(e.id);
+        if(opt){
+          const c = echarts.init(document.getElementById('epc-'+e.id));
+          c.setOption(opt);
+          EP_CHARTS[e.id] = c;
+        }
+      }
+    });
+  });
+})();
+
+/* ================= 柒：底与顶 ================= */
+(function bt(){
+  const b = EP.market_bottoms;
+  let rows = '';
+  Object.entries(b).forEach(([k,v])=>{
+    if(k==='说明') return;
+    rows += `<tr><td style="white-space:nowrap"><b>${k}</b></td><td style="white-space:nowrap">${v.date}</td><td>${v.value}</td><td>${v.note}</td></tr>`;
+  });
+  document.getElementById('bottomTable').innerHTML = `<thead><tr><th>底部类型</th><th>日期</th><th>观测值</th><th>解读</th></tr></thead><tbody>${rows}</tbody>`;
+  const t = EP.market_tops;
+  let rows2 = '';
+  Object.entries(t).forEach(([k,v])=>{
+    if(k==='说明') return;
+    rows2 += `<tr><td style="white-space:nowrap"><b>${k}</b></td><td>${v}</td></tr>`;
+  });
+  document.getElementById('topTable').innerHTML = `<thead><tr><th style="width:260px">顶部类型</th><th>观测与解读</th></tr></thead><tbody>${rows2}</tbody>`;
+})();
+
+/* ================= 捌：数据边界 ================= */
+(function limits(){
+  document.getElementById('limitBox').innerHTML = `
+  <b>数据与口径</b><br>
+  · 行情：Futu OpenD（127.0.0.1:11111）日K，区间 2023-11-01 ~ 2026-07-24；<b>个股为前复权（QFQ）口径</b>——历史名义价（如寒武纪2024年12月的700元、2025年8月的1587.91元）与图中点位因送转除权存在系数差，涨幅与归一化走势不受影响；指数为原始点位。61个标的+16个行业/主题基准全部采集成功。<br>
+  · 行业基准：半导体以中证全指半导体产品与设备指数的 <b>512480 ETF 跟踪口径</b>呈现（Futu历史接口不提供官方980017点位，相关成交额亦为ETF成交额）；通信采用国证通信；EP09同时展示中证传媒与恒生科技；EP13同时展示生物医药、恒生医疗保健与<b>恒生生物科技（港股创新药）</b>。光伏→国证新能、稀土→国证有色仍为代理口径；港股通非银金融/互联网科技指数2026-02才发布，仅出现在行业视图。<br>
+  · 全A成交额 = 上证指数成交额 + 深证成指成交额（交易所口径近似）；全港成交额 = 恒生指数K线成交额。<br>
+  · 叙事篮子成交额占比 = 篮子成员成交额合计 / 全A成交额；<b>成交量是注意力代理，不是净流入</b>。两融余额仅为当时公开报道的关键点，非逐日序列。<br>
+  · 北向资金：港交所2024-08-19起调整披露方式，本复盘不使用任何"北向每日净买入"连续序列。<br>
+  · 叙事事件与引文：来自三份当时信源时间线底稿（notes/timeline-2024.md、timeline-2025H1.md、timeline-2025H2-2026.md），含政策原文、证券时报/上证报/21财经等当时报道；个股财务数据引自当时财报与报道。<br>
+  · 篮子标的为事后选取的代表性样本，存在幸存者偏差；角色标签（锚定/高弹性/纯概念）为研究框架定性标注。<br>
+  · 事实 / 分析推断 / 前瞻情景已分层标注；"当前阶段"与"事后结论"截至2026-07-24，不构成投资建议。<br>
+  · 已知缺口：ETF分日申赎、南向2026年逐月数据、化债/机器人等题材板块成交日度、雅下概念精确成交占比——相关单元格标注"资料缺失"。`;
+})();
+
+/* ================= 图表组联动与全局 resize ================= */
+[CH.main, CH.life, CH.flow, CH.flowHK].forEach(c=>{ if(c) c.group = 'narrative'; });
+echarts.connect('narrative');
+window.addEventListener('resize', ()=>{
+  mainChart.resize();
+  Object.values(EP_CHARTS).forEach(c=>c.resize());
+});
+</script>
+</body>
+</html>

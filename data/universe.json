@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "created": "2026-07-25",
+    "purpose": "924牛市叙事考古复盘：指数 + 叙事篮子标的池",
+    "window": {"start": "2023-11-01", "end": "2026-07-24"},
+    "note": "标的选取基于 2024-2025 已知叙事框架，2025H2-2026H1 叙事待新闻检索验证后补充"
+  },
+  "indexes": [
+    {"code": "SH.000001", "name": "上证指数", "role": "A股基准"},
+    {"code": "SH.000300", "name": "沪深300", "role": "大盘核心"},
+    {"code": "SH.000016", "name": "上证50", "role": "超大盘风格"},
+    {"code": "SZ.399001", "name": "深证成指", "role": "深市基准"},
+    {"code": "SZ.399006", "name": "创业板指", "role": "成长风格"},
+    {"code": "SH.000688", "name": "科创50", "role": "硬科技风格"},
+    {"code": "SH.000852", "name": "中证1000", "role": "小盘风格"},
+    {"code": "SH.000922", "name": "中证红利", "role": "红利防御风格"},
+    {"code": "HK.800000", "name": "恒生指数", "role": "港股基准"},
+    {"code": "HK.800100", "name": "恒生国企指数", "role": "港股中资"},
+    {"code": "HK.800700", "name": "恒生科技", "role": "港股科技"}
+  ],
+  "industry_indexes": [
+    {"code": "SZ.399975", "name": "证券公司", "proxy": "券商", "episodes": ["EP04", "EP05"]},
+    {"code": "SZ.399965", "name": "800地产", "proxy": "地产/化债", "episodes": ["EP06"]},
+    {"code": "SH.512480", "name": "中证半导体（512480跟踪）", "proxy": "中证全指半导体产品与设备指数（ETF跟踪口径）", "chart_role": "行业ETF", "episodes": ["EP07", "EP16", "EP18", "EP23"]},
+    {"code": "SZ.399389", "name": "国证通信", "proxy": "通信设备/光模块/算力互联", "episodes": ["EP09", "EP16"]},
+    {"code": "SH.000922", "name": "中证红利", "proxy": "红利", "episodes": ["EP02", "EP08", "EP20", "EP24"]},
+    {"code": "SZ.399986", "name": "中证银行", "proxy": "银行/红利", "episodes": ["EP02", "EP08", "EP20"]},
+    {"code": "SZ.399441", "name": "生物医药", "proxy": "创新药（代理）", "episodes": ["EP13"]},
+    {"code": "SZ.399395", "name": "国证有色", "proxy": "金铜有色/稀土（代理）", "episodes": ["EP12", "EP17"]},
+    {"code": "SZ.399412", "name": "国证新能", "proxy": "光伏/新能源（代理）", "episodes": ["EP15"]},
+    {"code": "SZ.399971", "name": "中证传媒", "proxy": "AI应用（代理）", "episodes": ["EP09"]},
+    {"code": "SZ.399973", "name": "中证国防", "proxy": "军工", "episodes": ["EP22"]},
+    {"code": "HK.800704", "name": "恒生医疗保健", "proxy": "创新药（港股代理）", "episodes": ["EP13"]},
+    {"code": "HK.800805", "name": "恒生生物科技", "proxy": "港股创新药", "episodes": ["EP13"]},
+    {"code": "HK.800702", "name": "恒生非必需消费", "proxy": "新消费（港股代理）", "episodes": ["EP11"]},
+    {"code": "HK.800301", "name": "港股通非银金融", "proxy": "虚拟资产/券商（指数2026-02才发布，仅行业视图）", "episodes": []},
+    {"code": "HK.800300", "name": "港股通互联网科技", "proxy": "港股互联网（指数2026-02才发布，仅行业视图）", "episodes": []}
+  ],
+  "baskets": {
+    "dividend_2024": {
+      "name": "红利/中特估（熊市末尾防御叙事）",
+      "window_hint": "2024-01 ~ 2024-09",
+      "stocks": [
+        {"code": "SH.600900", "name": "长江电力", "role": "叙事锚定股/盈利锚"},
+        {"code": "SH.601088", "name": "中国神华", "role": "盈利锚"},
+        {"code": "SH.601398", "name": "工商银行", "role": "高股息银行锚"},
+        {"code": "SH.601857", "name": "中国石油", "role": "高弹性扩散"}
+      ]
+    },
+    "broker_924": {
+      "name": "券商/大金融（924点火叙事）",
+      "window_hint": "2024-09-24 ~ 2024-11",
+      "stocks": [
+        {"code": "SZ.300059", "name": "东方财富", "role": "叙事锚定股/成交锚"},
+        {"code": "SH.600030", "name": "中信证券", "role": "龙头锚"},
+        {"code": "SZ.300033", "name": "同花顺", "role": "高弹性股"},
+        {"code": "SH.601688", "name": "华泰证券", "role": "二线扩散"}
+      ]
+    },
+    "huazhai_2024": {
+      "name": "化债/地产链（政策续力叙事）",
+      "window_hint": "2024-10 ~ 2024-12",
+      "stocks": [
+        {"code": "SZ.300355", "name": "蒙草生态", "role": "高弹性纯概念"},
+        {"code": "SZ.000567", "name": "海德股份", "role": "AMC概念"},
+        {"code": "SH.600048", "name": "保利发展", "role": "地产锚/盈利验证"}
+      ]
+    },
+    "semicon_2024": {
+      "name": "半导体自主可控",
+      "window_hint": "2024-10 ~ 2025-01",
+      "stocks": [
+        {"code": "SH.688981", "name": "中芯国际A", "role": "叙事锚定股"},
+        {"code": "SH.688012", "name": "中微公司", "role": "设备映射"},
+        {"code": "SH.688256", "name": "寒武纪", "role": "高弹性股（后为算力锚）"},
+        {"code": "SH.603986", "name": "兆易创新", "role": "存储映射（后为存储叙事锚）"}
+      ]
+    },
+    "robot_2024": {
+      "name": "人形机器人",
+      "window_hint": "2024-11 ~ 2025-03",
+      "stocks": [
+        {"code": "SZ.002050", "name": "三花智控", "role": "核心执行器"},
+        {"code": "SH.601689", "name": "拓普集团", "role": "核心结构件"},
+        {"code": "SH.688017", "name": "绿的谐波", "role": "高弹性谐波减速器"}
+      ]
+    },
+    "ai_deepseek_2025": {
+      "name": "DeepSeek/中国AI资产重估",
+      "window_hint": "2025-01 ~ 2025-04",
+      "stocks": [
+        {"code": "SH.688041", "name": "海光信息", "role": "国产算力锚"},
+        {"code": "SH.688111", "name": "金山办公", "role": "AI应用锚"},
+        {"code": "HK.09988", "name": "阿里巴巴-W", "role": "港股AI锚/capex叙事"},
+        {"code": "HK.00700", "name": "腾讯控股", "role": "港股核心资产锚"}
+      ]
+    },
+    "hk_revalue_2025": {
+      "name": "港股重估/南向定价权",
+      "window_hint": "2025-02 ~ 2025-05",
+      "stocks": [
+        {"code": "HK.01810", "name": "小米集团-W", "role": "新核心资产"},
+        {"code": "HK.00981", "name": "中芯国际H", "role": "AH映射"},
+        {"code": "HK.09992", "name": "泡泡玛特", "role": "新消费锚（交叉）"}
+      ]
+    },
+    "new_consumption_2025": {
+      "name": "新消费（谷子/IP/黄金饰品/现制茶饮）",
+      "window_hint": "2025-03 ~ 2025-07",
+      "stocks": [
+        {"code": "HK.09992", "name": "泡泡玛特", "role": "叙事锚定股/IP之王"},
+        {"code": "HK.06181", "name": "老铺黄金", "role": "高弹性股"},
+        {"code": "HK.02097", "name": "蜜雪集团", "role": "盈利锚"}
+      ]
+    },
+    "tariff_defense_2025": {
+      "name": "关税反制/内需防御",
+      "window_hint": "2025-04 ~ 2025-06",
+      "stocks": [
+        {"code": "SH.600111", "name": "北方稀土", "role": "反制叙事锚"},
+        {"code": "SZ.000831", "name": "中国稀土", "role": "高弹性股"},
+        {"code": "SH.601933", "name": "永辉超市", "role": "内需概念"}
+      ]
+    },
+    "inno_drug_2025": {
+      "name": "创新药出海/BD授权",
+      "window_hint": "2025-04 ~ 2025-09",
+      "stocks": [
+        {"code": "SH.688235", "name": "百济神州", "role": "叙事锚定股/盈利验证"},
+        {"code": "HK.01801", "name": "信达生物", "role": "核心龙头"},
+        {"code": "SH.600276", "name": "恒瑞医药", "role": "A股锚"},
+        {"code": "HK.01530", "name": "三生制药", "role": "BD弹性股"}
+      ]
+    },
+    "stablecoin_2025": {
+      "name": "稳定币/虚拟资产牌照",
+      "window_hint": "2025-05 ~ 2025-08",
+      "stocks": [
+        {"code": "HK.01788", "name": "国泰君安国际", "role": "叙事锚定股"},
+        {"code": "HK.06060", "name": "众安在线", "role": "高弹性股"},
+        {"code": "SZ.300468", "name": "四方精创", "role": "A股纯概念映射"}
+      ]
+    },
+    "anti_involution_2025": {
+      "name": "反内卷/光伏供给侧",
+      "window_hint": "2025-07 ~ 2025-10",
+      "stocks": [
+        {"code": "SH.600438", "name": "通威股份", "role": "硅料锚"},
+        {"code": "HK.03800", "name": "协鑫科技", "role": "高弹性颗粒硅"},
+        {"code": "SH.601012", "name": "隆基绿能", "role": "组件锚"}
+      ]
+    },
+    "ai_compute_2025": {
+      "name": "AI算力/国产芯片主升",
+      "window_hint": "2025-07 ~ 2025-12",
+      "stocks": [
+        {"code": "SZ.300308", "name": "中际旭创", "role": "光模块盈利锚"},
+        {"code": "SZ.300502", "name": "新易盛", "role": "光模块高弹性"},
+        {"code": "SH.601138", "name": "工业富联", "role": "服务器锚"},
+        {"code": "SZ.300476", "name": "胜宏科技", "role": "PCB高弹性"}
+      ]
+    },
+    "storage_cxmt_2025": {
+      "name": "存储超级周期/长鑫叙事",
+      "window_hint": "2025-09 ~ 2026-?",
+      "stocks": [
+        {"code": "SZ.301308", "name": "江波龙", "role": "模组锚"},
+        {"code": "SZ.300475", "name": "香农芯创", "role": "高弹性分销"},
+        {"code": "SH.688525", "name": "佰维存储", "role": "高弹性模组"}
+      ]
+    },
+    "gold_2025": {
+      "name": "黄金/有色（美元信用与降息叙事）",
+      "window_hint": "2025-08 ~ 2026-?",
+      "stocks": [
+        {"code": "SH.601899", "name": "紫金矿业", "role": "叙事锚定股"},
+        {"code": "SH.600547", "name": "山东黄金", "role": "纯金高弹性"},
+        {"code": "SH.603993", "name": "洛阳钼业", "role": "铜钴映射"}
+      ]
+    }
+  }
+}
