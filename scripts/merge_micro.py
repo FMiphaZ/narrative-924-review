@@ -192,12 +192,19 @@ FEATURED = {
  "EP24": ["SH.000688", "SH.000922"],
 }
 
+# 单日冲击型事件的标的摘要应使用当日价格截面，而非跨全样本期的底顶。
+PRICE_FOCUS = {
+ "EP12": {"start": "2025-04-03", "end": "2025-04-07", "label": "关税冲击"},
+}
+
 for e in db["episodes"]:
     e["micro_events"] = [
         {"date": d, "label": l, "type": t} for d, l, t in MICRO.get(e["id"], [])
     ]
     if e["id"] in FEATURED:
         e["featured_indexes"] = FEATURED[e["id"]]
+    if e["id"] in PRICE_FOCUS:
+        e["price_focus"] = PRICE_FOCUS[e["id"]]
 
 F.write_text(json.dumps(db, ensure_ascii=False, indent=1), encoding="utf-8")
 n = sum(len(e["micro_events"]) for e in db["episodes"])

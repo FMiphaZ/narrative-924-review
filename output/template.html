@@ -707,7 +707,16 @@ function buildEpChart(eid){
     const stocks = (e.stocks||[]).map(s=>{
       const st = STK[s.code];
       const m = st && st.marks;
-      const mk = m ? `收盘价底 ${m['价格底'].date}（${m['价格底'].value}） → 收盘价顶 ${m['价格顶'].date}（${m['价格顶'].value}） · 底至顶 +${m['底至顶涨幅%']}% · 最新收盘 ${m['最新收盘'].date}（${m['最新收盘'].value}）· 当前自顶 ${m['当前自顶回撤%']}%` : '';
+      const f = e.price_focus;
+      const fs = f && (EPC.episodes[e.id]?.series||[]).find(x=>x.code===s.code);
+      const i0 = f ? EPC.dates.indexOf(f.start) : -1;
+      const i1 = f ? EPC.dates.indexOf(f.end) : -1;
+      const p0 = fs && i0 >= 0 ? fs.close[i0] : null;
+      const p1 = fs && i1 >= 0 ? fs.close[i1] : null;
+      const eventMk = Number.isFinite(p0) && Number.isFinite(p1)
+        ? `${f.label}：${f.start.slice(5)}收盘 ${p0.toLocaleString('zh-CN',{maximumFractionDigits:2})} → ${f.end.slice(5)}收盘 ${p1.toLocaleString('zh-CN',{maximumFractionDigits:2})} · ${(p1/p0-1)>=0?'+':''}${((p1/p0-1)*100).toFixed(1)}%`
+        : '';
+      const mk = eventMk || (m ? `收盘价底 ${m['价格底'].date}（${m['价格底'].value}） → 收盘价顶 ${m['价格顶'].date}（${m['价格顶'].value}） · 底至顶 +${m['底至顶涨幅%']}% · 最新收盘 ${m['最新收盘'].date}（${m['最新收盘'].value}）· 当前自顶 ${m['当前自顶回撤%']}%` : '');
       return `<tr><td style="white-space:nowrap"><b>${s.name}</b><br><span style="color:#94a3b8;font-size:11px">${s.code}</span></td><td>${s.role}</td><td style="font-size:11.5px;color:#475569">${mk}</td></tr>`;
     }).join('');
     return `<details class="ep" id="ep-${e.id}">
