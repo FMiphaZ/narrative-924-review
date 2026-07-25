@@ -668,14 +668,15 @@ function buildEpChart(eid){
   }
   return {
     animation:false, textStyle:FONT,
-    grid:[{left:58,right:16,top:36,height:'46%'},{left:58,right:16,top:'58%',height:'22%'}],
+    // 图例只放价格线，并为其和纵轴标题预留独立空间，避免标的多时遮挡坐标标题。
+    grid:[{left:70,right:16,top:58,height:'42%'},{left:70,right:16,top:'59%',height:'22%'}],
     xAxis:[{type:'time',gridIndex:0,show:false},{type:'time',gridIndex:1,axisLabel:{fontSize:9.5,color:'#94a3b8'}}],
     yAxis:[
-      {type:'value',gridIndex:0,scale:true,name:'点位·归一化(首日=100)',nameTextStyle:{fontSize:10,color:'#94a3b8'},axisLabel:{fontSize:10,color:'#94a3b8'},splitLine:{lineStyle:{color:'#f1f5f9'}}},
-      {type:'value',gridIndex:1,name:'成交额(亿·本币)',nameTextStyle:{fontSize:10,color:'#94a3b8'},axisLabel:{fontSize:10,color:'#94a3b8'},splitLine:{show:false}}
+      {type:'value',gridIndex:0,scale:true,name:'点位·归一化(首日=100)',nameLocation:'middle',nameGap:48,nameTextStyle:{fontSize:10,color:'#94a3b8'},axisLabel:{fontSize:10,color:'#94a3b8'},splitLine:{lineStyle:{color:'#f1f5f9'}}},
+      {type:'value',gridIndex:1,name:'成交额(亿·本币)',nameLocation:'middle',nameGap:48,nameTextStyle:{fontSize:10,color:'#94a3b8'},axisLabel:{fontSize:10,color:'#94a3b8'},splitLine:{show:false}}
     ],
     axisPointer:{link:[{xAxisIndex:'all'}], label:{backgroundColor:'#334155'}},
-    legend:{top:2, type:'scroll', textStyle:{fontSize:11}, itemWidth:14, itemHeight:2},
+    legend:{top:4,left:70,right:16,type:'scroll',data:priceSeries.map(s=>s.name),textStyle:{fontSize:11},pageTextStyle:{color:'#64748b'},itemWidth:14,itemHeight:2},
     dataZoom:[
       {type:'inside', xAxisIndex:[0,1], startValue:zs, endValue:ze},
       {type:'slider', xAxisIndex:[0,1], startValue:zs, endValue:ze, height:14, bottom:6, borderColor:'#e2e8f0', fillerColor:'rgba(217,119,6,.1)'}
@@ -735,7 +736,7 @@ function buildEpChart(eid){
         <div class="prop">${e.proposition}</div>
         <div class="kv" style="margin:6px 0"><b>受益路径：</b>${e.transmission}</div>
         <div style="margin:8px 0"><b style="font-size:12px;color:#b45309">当时叙事原话</b>${quotes}</div>
-        <div class="epchart-cap">微观图表：上=标的与行业基准的全期归一化走势（首日=100，<b>实线</b>；每条线采用不同高对比色；橙色带=叙事窗口）· 下=成交额（亿·本币，<b>虚线</b>，图例带"·量"后缀）· 默认聚焦窗口前后各90天，拖动底部滑块可看全期 · 粗竖线=阶段 / 细虚线=事件（悬停显名）</div>
+        <div class="epchart-cap">微观图表：上=标的与行业基准的全期归一化走势（首日=100，<b>实线</b>；每条线采用不同高对比色；橙色带=叙事窗口）· 下=成交额（亿·本币，<b>同色虚线</b>）· 图例仅对应上方价格线，成交额请悬停查看 · 默认聚焦窗口前后各90天，拖动底部滑块可看全期 · 粗竖线=阶段 / 细虚线=事件（悬停显名）</div>
         <div class="epchart" id="epc-${e.id}"></div>
         <div class="mev">${mevs}</div>
         <div class="tracks">
