@@ -4,6 +4,12 @@
 > 研究单位：**叙事事件段（Narrative Episode）**，跟踪 S=(A叙事, F资金, P价格, E业绩) 四轨的共振与背离。
 > 生成时间：2026-07-25 · 数据截止：2026-07-24 收盘（Asia/Shanghai）
 
+## 在线访问
+
+推送到 GitHub 后，Pages 工作流会发布 `output/` 目录。部署成功后可直接分享：
+
+https://fmiphaz.github.io/narrative-924-review/
+
 ## 目录结构
 
 ```
